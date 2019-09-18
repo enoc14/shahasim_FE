@@ -54,7 +54,7 @@ const Contacto = () => {
     }
 
     const makePostRequest = async () => {
-        const res = await axios.post('/api/form', formInputs);
+        const res = await axios.post('https://backend-shahasim.herokuapp.com/api/form', formInputs);
         console.log(res.data);
     }
 
