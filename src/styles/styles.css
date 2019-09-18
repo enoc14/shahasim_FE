@@ -53,14 +53,18 @@
 }
 
 .p-first {
-    padding-top: 35px !important;
-    padding-bottom: 35px !important;
+    padding-top: 35px;
+    padding-bottom: 35px;
 }
 
 .img-center {
     position: relative;
     left: 50%;
     transform: translateX(-50%);
+}
+
+#reCaptcha {
+    display: ruby block;
 }
 
 @media only screen and (max-width: 768px) {

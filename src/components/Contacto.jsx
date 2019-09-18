@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+
+import ReCAPTCHA from 'react-google-recaptcha';
 import axios from 'axios';
 
 const initState = {
@@ -18,6 +20,7 @@ const rules = {
 const Contacto = () => {
     const inputs = ["inputNombre","inputApellidos","inputCelular","inputEdad"];
     const [formInputs, setFormInputs] = useState(initState);
+    const [onCaptcha, setOnCaptcha] = useState({value: false});
     
     const handlerForm = event => {
         const {id, value} = event.target;
@@ -66,8 +69,13 @@ const Contacto = () => {
         }
     }
 
+    const onReCAPTCHA = (value) => {
+        if(value)
+            setOnCaptcha({value: true});
+    }
+
     return(
-        <div className="jumbotron p-first bg-white">
+        <div className="jumbotron pb-0 p-first bg-white">
             <h1>Únete a nosotros</h1>
             <hr className="mb-4 my-2" style={{display: "block", width: "100%"}}/>
             <fieldset className="mt-4">
@@ -78,7 +86,7 @@ const Contacto = () => {
                             type="text" value={formInputs["inputNombre"]}
                             className="form-control" id="inputNombre" 
                             placeholder="Ej. Juan Alberto" onChange={handlerForm}  />
-                            <div className="invalid-feedback">Mínimo 3 caracteres (No números)</div>
+                        <div className="invalid-feedback">Mínimo 3 caracteres (No números)</div>
                     </div>
                     <div className="form-group col-12 col-md-6 mb-4">
                         <label htmlFor="inputApellido">Apellidos</label>
@@ -86,7 +94,7 @@ const Contacto = () => {
                             type="text" value={formInputs["inputApellidos"]}
                             className="form-control" id="inputApellidos"
                             placeholder="Ej. Ramos Pérez" onChange={handlerForm} />
-                            <div className="invalid-feedback">Mínimo 5 caracteres (No números)</div>
+                        <div className="invalid-feedback">Mínimo 3 caracteres (No números)</div>
                     </div>
                     <div className="form-group col-12 col-md-6 mb-4">
                         <label htmlFor="inputApellido">Celular / Casa</label>
@@ -110,7 +118,18 @@ const Contacto = () => {
                         <div className="invalid-feedback">Elija una edad correcta</div>
                     </div>
                     <div className="col-12 text-center">
-                        <button type="submit" className="btn btn-outline-primary">Enviar</button>
+                        <button 
+                            type="submit"
+                            disabled= {onCaptcha["value"]?false:true}
+                            className='btn btn-outline-primary mb-2'>
+                            Enviar
+                        </button>
+                        <ReCAPTCHA
+                            id="reCaptcha"
+                            theme="dark"
+                            sitekey="6LcnMLkUAAAAAH_a0Mpfd7z80F5ICfgVYyQRhefQ"
+                            onChange={onReCAPTCHA}
+                            onExpired={() => setOnCaptcha({value: false})} />
                     </div>
                 </form>
             </fieldset>
